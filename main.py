@@ -2,7 +2,11 @@ from bs4 import BeautifulSoup
 import requests
 from time import sleep
 import datetime
+from os import system
 
+title = "Oneplus Notificator"
+
+system("title "+title)
 
 CHECK_URL = "https://oneplus.net/it/oneplus-3t"
 NOTIFY_URL = "https://www.notifymyandroid.com/publicapi/notify"
