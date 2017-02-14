@@ -1,8 +1,38 @@
-from bs4 import BeautifulSoup
+import math
 import requests
-from time import sleep
 import datetime
+
+from bs4 import BeautifulSoup
+from time import sleep
 from os import system
+
+def secs_to_time(seconds):
+    if seconds < 60:
+        return "{seconds} secondi".format(
+        seconds = seconds
+        )
+    else:
+        if int(seconds / 60 / 60 / 24) > 0:
+            days = seconds / 60 / 60 / 24
+            return "{days} giorni, {hours} ore, {minutes} minuti, {seconds} secondi".format(
+            days = int(days),
+            hours = int((math.ceil((days - int(days)) * 24))),
+            minutes = int((math.ceil((days - int(days)) * 24 * 60))),
+            seconds = int(math.ceil((days - int(days)) * 24 * 60 * 60))
+            )
+        elif int(seconds / 60 / 60) > 0:
+            hours = seconds / 60 / 60
+            return "{hours} ore, {minutes} minuti, {seconds} secondi".format(
+            hours = int(hours),
+            minutes = int((math.ceil((hours - int(hours)) * 60))),
+            seconds = int((math.ceil((hours - int(hours)) * 60 * 60)))
+            )
+        elif int(seconds / 60) > 0:
+            minutes = seconds / 60
+            return "{minutes} minuti, {seconds} secondi".format(
+            minutes = int(minutes),
+            seconds = int(((minutes - int(minutes)) * 60 ))
+            )
 
 title = "Oneplus Notificator"
 
@@ -35,7 +65,7 @@ while True:
         if prenotable == False:
             payload["event"] = "Prenotabile!"
             payload["description"] = "Il Oneplus 3T 128gb è <b>prenotabile</b>!"
-            print("[{}] Prenotabile!".format(datetime.datetime.now()))
+            print("[{}] Prenotabile! Notifica in invio...".format(datetime.datetime.now()))
             request = requests.post(NOTIFY_URL, data=payload)
             prenotable = True
         else:
@@ -44,14 +74,14 @@ while True:
         if prenotable == True:
             payload["event"] = "Non più prenotabile!"
             payload["description"] = "Il Oneplus 3T 128gb <b>non è più prenotabile</b>!"
-            print("[{}] Non prenotabile!".format(datetime.datetime.now()))
+            print("[{}] Non prenotabile! Notifica in invio...".format(datetime.datetime.now()))
             request = requests.post(NOTIFY_URL, data=payload)
             prenotable = False
         else:
             print("[{}] Non prenotabile, ma non verrà notificato.".format(datetime.datetime.now()))
     executions += 1
-    print("[{}] Attendo per {seconds} secondi".format(datetime.datetime.now(),
-    seconds = seconds + 1))
+    print("[{}] Attendo per {time}".format(datetime.datetime.now(),
+    time = secs_to_time(seconds + 1)))
     i = 0
     while True:
         sleep(1)
