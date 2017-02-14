@@ -28,8 +28,9 @@ while True:
     print("[{}] Esecuzione n. {}".format(datetime.datetime.now(), executions))
     html_source = requests.get(CHECK_URL).text
     soup = BeautifulSoup(html_source, 'html.parser')
-    radio_128 = soup.find(id = "phone_model2", enabled=True)
-    if radio_128:
+    radio_128 = soup.find(id = "phone_model2")
+    radio_gunmetal = soup.find(id = "405")
+    if radio_128 and radio_gunmetal:
         if prenotable == False:
             payload["event"] = "Prenotabile!"
             payload["description"] = "Il Oneplus 3T 128gb è <b>prenotabile</b>!"
@@ -53,5 +54,5 @@ while True:
     while True:
         sleep(1)
         i += 1
-        if i > 3599:
+        if i > 299:
             break
