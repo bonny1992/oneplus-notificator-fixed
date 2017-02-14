@@ -23,6 +23,7 @@ payload = {
 
 executions = 1
 prenotable = False
+seconds = 299
 
 while True:
     print("[{}] Esecuzione n. {}".format(datetime.datetime.now(), executions))
@@ -49,7 +50,8 @@ while True:
         else:
             print("[{}] Non prenotabile, ma non verrà notificato.".format(datetime.datetime.now()))
     executions += 1
-    print("[{}] Attendo per un'ora".format(datetime.datetime.now()))
+    print("[{}] Attendo per {seconds} secondi".format(datetime.datetime.now(),
+    seconds = seconds + 1))
     i = 0
     while True:
         sleep(1)
